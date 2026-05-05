@@ -16,7 +16,7 @@ const allowedOrigins = [
   'http://localhost:8000',
   'http://localhost:3000',
   'https://rubendml.github.io',
-  'https://fonescujud-sistema.vercel.app'
+  'https://fonescujud-fix-abonos.vercel.app/api'
 ];
 
 const isAllowedOrigin = (origin) => {
