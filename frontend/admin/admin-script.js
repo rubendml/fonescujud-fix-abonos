@@ -140,6 +140,8 @@ const updateDashboard = (data) => {
   if (!data || !data.totales) return;
   const { totales, resumen } = data;
 
+  console.log('Abonos:', totales.abonos);
+
   // Top stat cards
   const totalAfiliados = document.getElementById('totalAfiliados');
   const totalCuotas = document.getElementById('totalCuotas');

@@ -20,6 +20,12 @@ export const getResumenGeneral = async (req, res) => {
       .select('tipo_movimiento, monto')
       .eq('tipo_movimiento', 'interes');
 
+    // Abonos realizados a créditos (dinero que vuelve al fondo)
+    const { data: abonos } = await supabaseAdmin
+      .from('movimientos_creditos')
+      .select('monto')
+      .eq('tipo_movimiento', 'abono');
+
     // Multas
     const { data: multas } = await supabaseAdmin
       .from('multas')
@@ -41,6 +47,8 @@ export const getResumenGeneral = async (req, res) => {
     // Intereses realmente cobrados
     const total_interes_recaudado =
       movimientos?.reduce((sum, m) => sum + m.monto, 0) || 0;
+    const total_abonos =
+      abonos?.reduce((sum, a) => sum + a.monto, 0) || 0;
     const total_multas_recaudadas =
       multas
         ?.filter((m) => m.estado === 'pagada')
@@ -89,7 +97,12 @@ export const getResumenGeneral = async (req, res) => {
     // Ingresos: cuotas + intereses cobrados + multas recaudadas
     // Menos: créditos desembolsados
     const total_ingresos = total_cuotas + total_interes_recaudado + total_multas_recaudadas;
-    const efectivo_disponible = total_ingresos - total_desembolsado;
+
+    // SUMAR abonos (dinero que regresa al fondo)
+    const efectivo_disponible =
+      total_ingresos +
+      total_abonos -
+      total_desembolsado;
 
     // Retornar datos en el formato esperado por el frontend
     res.json({
@@ -99,6 +112,7 @@ export const getResumenGeneral = async (req, res) => {
         creditos: total_desembolsado,
         multas: total_multas_recaudadas,
         interes_recaudado: total_interes_recaudado,
+        abonos: total_abonos,
         efectivo_disponible: efectivo_disponible
       },
       resumen: {
