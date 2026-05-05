@@ -25,9 +25,9 @@ loginForm.addEventListener('submit', async (e) => {
 
             // 🔥 REDIRECCIÓN LIMPIA (sin rutas viejas)
             if (data.rol === 'admin') {
-                window.location.href = './admin.html';
+                window.location.href = './admin/';
             } else if (data.rol === 'revisor') {
-                window.location.href = './revisor/index.html';
+                window.location.href = './revisor/';
             } else {
                 loginError.textContent = 'Rol no autorizado.';
                 loginError.style.display = 'block';
