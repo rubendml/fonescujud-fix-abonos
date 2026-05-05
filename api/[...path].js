@@ -1,4 +1,3 @@
-💥 REEMPLÁZALO COMPLETO por esto:
 import app from '../backend/src/server.js';
 
 export default function handler(req, res) {
