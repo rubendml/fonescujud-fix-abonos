@@ -464,7 +464,7 @@ body {
 
 
 /* =========================
-   FIX RESPONSIVE VALORES
+   FIX RESPONSIVE DASHBOARD
 ========================= */
 
 .stat-value,
@@ -472,21 +472,24 @@ body {
 .card-value,
 .summary-value,
 .financial-value {
-  font-size: clamp(1.4rem, 2vw, 2.4rem);
+  font-size: clamp(1.6rem, 1.8vw, 2.3rem);
   font-weight: 700;
-  line-height: 1.2;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
+  line-height: 1.1;
+
+  /* 🔥 IMPORTANTE */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dashboard-card,
 .stat-card,
 .summary-card {
+  min-width: 0;
   overflow: hidden;
 }
 
 .dashboard-grid,
 .stats-grid {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
