@@ -137,76 +137,86 @@ const fetchDashboardData = async () => {
 
 const updateDashboard = (data) => {
   if (!data || !data.totales) return;
+
   const { totales, resumen } = data;
 
-  // Top stat cards
-  const totalAfiliados = document.getElementById('totalAfiliados');
-  const totalCuotas = document.getElementById('totalCuotas');
-  const totalCreditos = document.getElementById('totalCreditos');
-  const totalPorCobrar = document.getElementById('totalPorCobrar');
-  if (totalAfiliados) totalAfiliados.textContent = resumen?.usuarios_afiliados || 0;
-  if (totalCuotas) totalCuotas.textContent = formatCurrency(totales.cuotas || 0);
-  if (totalCreditos) totalCreditos.textContent = formatCurrency(totales.creditos || 0);
-  totalPorCobrar.textContent = formatCurrency(
-    resumen?.saldo_pendiente || 0
-  );
+  document.getElementById('totalAfiliados').textContent =
+    resumen?.usuarios_afiliados || 0;
 
-  // Cuotas detail
-  const cuotasTotal = document.getElementById('cuotasTotal');
-  const cuotasCantidad = document.getElementById('cuotasCantidad');
-  if (cuotasTotal) cuotasTotal.textContent = formatCurrency(totales.cuotas || 0);
-  if (cuotasCantidad) cuotasCantidad.textContent = resumen?.usuarios_afiliados || 0;
+  document.getElementById('totalCuotas').textContent =
+    formatCurrency(totales.cuotas);
 
-  // Créditos detail
-  const creditoTotal = document.getElementById('creditoTotal');
-  const creditoSaldo = document.getElementById('creditoSaldo');
-  const creditoInteres = document.getElementById('creditoInteresDetalle');
-  const creditosActivos = document.getElementById('creditosActivos');
-  if (creditoTotal) creditoTotal.textContent = formatCurrency(totales.creditos || 0);
-  if (creditoSaldo) creditoSaldo.textContent = formatCurrency(resumen?.saldo_pendiente || 0);
-  if (creditoInteres) creditoInteres.textContent = formatCurrency(totales.interes_recaudado || 0);
-  if (creditosActivos) creditosActivos.textContent = resumen?.creditos_activos || 0;
+  document.getElementById('totalCreditos').textContent =
+    formatCurrency(totales.creditos);
 
-  // Multas detail
-  const multasTotal = document.getElementById('multasTotal');
-  const multasRecaudadas = document.getElementById('multasRecaudadas');
-  const multasPendientes = document.getElementById('multasPendientes');
-  const totalMultas = (totales.multas || 0) + (resumen?.multas_pendientes || 0);
-  if (multasTotal) multasTotal.textContent = formatCurrency(totalMultas);
-  if (multasRecaudadas) multasRecaudadas.textContent = formatCurrency(totales.multas || 0);
-  if (multasPendientes) multasPendientes.textContent = formatCurrency(resumen?.multas_pendientes || 0);
+  // 🔥 POR COBRAR CORRECTO
+  document.getElementById('totalPorCobrar').textContent =
+    formatCurrency(resumen.saldo_pendiente);
 
-  // Efectivo disponible
-  const efectivoIngresos = document.getElementById('efectivoIngresos');
-  const efectivoDesembolsado = document.getElementById('efectivoDesembolsado');
-  const efectivoDisponible = document.getElementById('efectivoDisponible');
-  if (efectivoIngresos) efectivoIngresos.textContent = formatCurrency(totales.ingresos || 0);
-  if (efectivoDesembolsado) efectivoDesembolsado.textContent = formatCurrency(totales.creditos || 0);
-  if (efectivoDisponible) efectivoDisponible.textContent = formatCurrency(totales.efectivo_disponible || 0);
+  // CUOTAS
+  document.getElementById('cuotasTotal').textContent =
+    formatCurrency(totales.cuotas);
 
-  // Financial summary section
-  const ingresosTotal = document.getElementById('ingresosTotal');
-  const ingresoCuotas = document.getElementById('ingresoCuotas');
-  const ingresoInteres = document.getElementById('ingresoInteres');
-  const ingresoMultas = document.getElementById('ingresoMultas');
-  const fondosPrestamos = document.getElementById('fondosPrestamos');
-  const porCobrarTotal = document.getElementById('porCobrarTotal');
-  const porCobrarSaldos = document.getElementById('porCobrarSaldos');
-  const porCobrarMultas = document.getElementById('porCobrarMultas');
-  if (ingresosTotal) ingresosTotal.textContent = formatCurrency(totales.ingresos || 0);
-  if (ingresoCuotas) ingresoCuotas.textContent = formatCurrency(totales.cuotas || 0);
-  if (ingresoInteres) ingresoInteres.textContent = formatCurrency(totales.interes_recaudado || 0);
-  if (ingresoMultas) ingresoMultas.textContent = formatCurrency(totales.multas || 0);
-  if (fondosPrestamos) fondosPrestamos.textContent = formatCurrency(totales.creditos || 0);
-  if (porCobrarTotal) porCobrarTotal.textContent = formatCurrency(resumen?.saldo_pendiente || 0);
-  if (porCobrarSaldos) porCobrarSaldos.textContent = formatCurrency(resumen?.saldo_pendiente || 0);
-  if (porCobrarMultas) porCobrarMultas.textContent = formatCurrency(totales.multas || 0);
+  document.getElementById('cuotasCantidad').textContent =
+    resumen.usuarios_afiliados;
 
-  // Info cards at bottom
-  const afiliados = document.getElementById('afiliados');
-  const noAfiliados = document.getElementById('noAfiliados');
-  if (afiliados) afiliados.textContent = resumen?.usuarios_afiliados || 0;
-  if (noAfiliados) noAfiliados.textContent = resumen?.usuarios_no_afiliados || 0;
+  // CRÉDITOS
+  document.getElementById('creditoTotal').textContent =
+    formatCurrency(totales.creditos);
+
+  document.getElementById('creditoSaldo').textContent =
+    formatCurrency(resumen.saldo_pendiente);
+
+  document.getElementById('creditoInteresDetalle').textContent =
+    formatCurrency(totales.interes_recaudado);
+
+  document.getElementById('creditosActivos').textContent =
+    resumen.creditos_activos;
+
+  // MULTAS
+  document.getElementById('multasTotal').textContent =
+    formatCurrency((totales.multas || 0) + (resumen.multas_pendientes || 0));
+
+  document.getElementById('multasRecaudadas').textContent =
+    formatCurrency(totales.multas);
+
+  document.getElementById('multasPendientes').textContent =
+    formatCurrency(resumen.multas_pendientes);
+
+  // 🔥 EFECTIVO CORRECTO
+  document.getElementById('efectivoIngresos').textContent =
+    formatCurrency(totales.ingresos);
+
+  document.getElementById('efectivoDesembolsado').textContent =
+    formatCurrency(totales.creditos);
+
+  document.getElementById('efectivoDisponible').textContent =
+    formatCurrency(totales.efectivo_disponible);
+
+  // RESUMEN FINAL
+  document.getElementById('ingresosTotal').textContent =
+    formatCurrency(totales.ingresos);
+
+  document.getElementById('ingresoCuotas').textContent =
+    formatCurrency(totales.cuotas);
+
+  document.getElementById('ingresoInteres').textContent =
+    formatCurrency(totales.interes_recaudado);
+
+  document.getElementById('ingresoMultas').textContent =
+    formatCurrency(totales.multas);
+
+  document.getElementById('fondosPrestamos').textContent =
+    formatCurrency(totales.creditos);
+
+  document.getElementById('porCobrarTotal').textContent =
+    formatCurrency(resumen.saldo_pendiente);
+
+  document.getElementById('porCobrarSaldos').textContent =
+    formatCurrency(resumen.saldo_pendiente);
+
+  document.getElementById('porCobrarMultas').textContent =
+    formatCurrency(totales.multas);
 };
 
 const updateDashboardError = () => {

@@ -13,14 +13,10 @@ const formatCurrency = (value) => {
 
 const fetchDashboardData = async () => {
   try {
-    console.log('Fetching from:', `${API_BASE_URL}/dashboard`);
-
     const response = await fetch(`${API_BASE_URL}/dashboard`);
-    if (!response.ok) throw new Error('Error al consultar dashboard');
+    if (!response.ok) throw new Error('Error');
 
     const data = await response.json();
-    console.log('Data recibida:', data);
-
     updateDashboard(data);
 
     const now = new Date();
@@ -28,7 +24,7 @@ const fetchDashboardData = async () => {
     if (el) el.textContent = now.toLocaleString('es-CO');
 
   } catch (error) {
-    console.error('Error dashboard público:', error);
+    console.error(error);
   }
 };
 
@@ -37,48 +33,58 @@ const updateDashboard = (data) => {
 
   const { totales, resumen } = data;
 
-  // 🔹 CARDS SUPERIORES
-  const totalAfiliados = document.getElementById('totalAfiliados');
-  const totalCuotas = document.getElementById('totalCuotas');
-  const totalCreditos = document.getElementById('totalCreditos');
-  const totalPorCobrar = document.getElementById('totalPorCobrar');
+  // TOP
+  document.getElementById('totalAfiliados').textContent =
+    resumen?.usuarios_afiliados || 0;
 
-  if (totalAfiliados) totalAfiliados.textContent = resumen?.usuarios_afiliados || 0;
-  if (totalCuotas) totalCuotas.textContent = formatCurrency(totales.cuotas || 0);
-  if (totalCreditos) totalCreditos.textContent = formatCurrency(totales.creditos || 0);
+  document.getElementById('totalCuotas').textContent =
+    formatCurrency(totales.cuotas);
 
-  // 🔥 SOLO SALDO REAL (SIN INTERESES FUTUROS)
-  if (totalPorCobrar) {
-    totalPorCobrar.textContent = formatCurrency(
-      resumen?.saldo_pendiente || 0
-    );
-  }
+  document.getElementById('totalCreditos').textContent =
+    formatCurrency(totales.creditos);
 
-  // 🔹 INGRESOS
-  const ingresosTotal = document.getElementById('ingresosTotal');
-  const ingresoCuotas = document.getElementById('ingresoCuotas');
-  const ingresoInteres = document.getElementById('ingresoInteres');
-  const ingresoMultas = document.getElementById('ingresoMultas');
+  // 🔥 POR COBRAR = SOLO CAPITAL
+  document.getElementById('totalPorCobrar').textContent =
+    formatCurrency(resumen.saldo_pendiente);
 
-  if (ingresosTotal) ingresosTotal.textContent = formatCurrency(totales.ingresos || 0);
-  if (ingresoCuotas) ingresoCuotas.textContent = formatCurrency(totales.cuotas || 0);
-  if (ingresoInteres) ingresoInteres.textContent = formatCurrency(totales.interes_recaudado || 0);
-  if (ingresoMultas) ingresoMultas.textContent = formatCurrency(totales.multas || 0);
+  // INGRESOS
+  document.getElementById('ingresosTotal').textContent =
+    formatCurrency(totales.ingresos);
 
-  // 🔹 CRÉDITOS
-  const creditoTotal = document.getElementById('creditoTotal');
-  const creditoSaldo = document.getElementById('creditoSaldo');
-  const creditoIntereses = document.getElementById('creditoIntereses');
-  const creditoActivos = document.getElementById('creditoActivos');
+  document.getElementById('ingresoCuotas').textContent =
+    formatCurrency(totales.cuotas);
 
-  if (creditoTotal) creditoTotal.textContent = formatCurrency(totales.creditos || 0);
-  if (creditoSaldo) creditoSaldo.textContent = formatCurrency(resumen?.saldo_pendiente || 0);
-  if (creditoIntereses) creditoIntereses.textContent = formatCurrency(resumen?.interes_recaudado || 0);
-  if (creditoActivos) creditoActivos.textContent = resumen?.creditos_activos || 0;
+  document.getElementById('ingresoInteres').textContent =
+    formatCurrency(totales.interes_recaudado);
+
+  document.getElementById('ingresoMultas').textContent =
+    formatCurrency(totales.multas);
+
+  // CRÉDITOS
+  document.getElementById('creditoTotal').textContent =
+    formatCurrency(totales.creditos);
+
+  document.getElementById('creditoSaldo').textContent =
+    formatCurrency(resumen.saldo_pendiente);
+
+  document.getElementById('creditoIntereses').textContent =
+    formatCurrency(resumen.interes_recaudado);
+
+  document.getElementById('creditoActivos').textContent =
+    resumen.creditos_activos;
+
+  // EFECTIVO
+  document.getElementById('efectivoIngresos').textContent =
+    formatCurrency(totales.ingresos);
+
+  document.getElementById('efectivoDesembolsado').textContent =
+    formatCurrency(totales.creditos);
+
+  document.getElementById('efectivoDisponible').textContent =
+    formatCurrency(totales.efectivo_disponible);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Public dashboard cargado');
   fetchDashboardData();
   setInterval(fetchDashboardData, 300000);
 });

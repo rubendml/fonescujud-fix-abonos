@@ -35,7 +35,7 @@ export const getResumenGeneral = async (req, res) => {
       ?.filter(m => m.tipo_movimiento === 'abono')
       .reduce((sum, m) => sum + (m.monto || 0), 0) || 0;
 
-    // ===== INTERESES COBRADOS (SOLO SI DICES "pagado") =====
+    // ===== INTERESES COBRADOS (SOLO LOS QUE REALMENTE SE PAGARON) =====
     const intereses_cobrados = movimientos
       ?.filter(m =>
         m.tipo_movimiento === 'interes' &&
@@ -43,26 +43,29 @@ export const getResumenGeneral = async (req, res) => {
       )
       .reduce((sum, m) => sum + (m.monto || 0), 0) || 0;
 
-    // ===== MULTAS PAGADAS =====
+    // ===== MULTAS =====
     const multas_pagadas = multas
       ?.filter(m => m.estado === 'pagada')
       .reduce((sum, m) => sum + (m.valor || 0), 0) || 0;
 
-    // ===== MULTAS PENDIENTES =====
     const multas_pendientes = multas
       ?.filter(m => m.estado !== 'pagada')
       .reduce((sum, m) => sum + (m.valor || 0), 0) || 0;
 
-    // ===== INGRESOS REALES =====
+    // =========================
+    // 🔥 NUEVA LÓGICA CORRECTA
+    // =========================
+
+    // INGRESOS REALES (SIN ABONOS)
     const ingresos =
       total_cuotas +
       intereses_cobrados +
       multas_pagadas;
 
-    // ===== POR COBRAR (SOLO CAPITAL) =====
+    // POR COBRAR (SOLO CAPITAL)
     const saldo_pendiente = total_desembolsado - total_abonos;
 
-    // ===== EFECTIVO =====
+    // EFECTIVO DISPONIBLE
     const efectivo_disponible = ingresos - saldo_pendiente;
 
     return res.json({
