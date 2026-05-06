@@ -27,13 +27,19 @@ export const getResumenGeneral = async (req, res) => {
     ) || 0;
 
     // ===== CRÉDITOS =====
-    const total_desembolsado = movimientos
-      ?.filter(m => m.tipo_movimiento === 'desembolso')
-      .reduce((sum, m) => sum + (m.monto || 0), 0) || 0;
+    const desembolsos = movimientos
+      ?.filter(m => m.tipo_movimiento === 'desembolso') || [];
 
-    const total_abonos = movimientos
-      ?.filter(m => m.tipo_movimiento === 'abono')
-      .reduce((sum, m) => sum + (m.monto || 0), 0) || 0;
+    const abonos = movimientos
+      ?.filter(m => m.tipo_movimiento === 'abono') || [];
+
+    // TOTAL DESEMBOLSADO
+    const total_desembolsado = desembolsos
+      .reduce((sum, m) => sum + (m.monto || 0), 0);
+
+    // TOTAL ABONOS A CAPITAL
+    const total_abonos = abonos
+      .reduce((sum, m) => sum + (m.monto || 0), 0);
 
     // ===== INTERESES COBRADOS (CORREGIDO) =====
     const intereses_cobrados = movimientos
@@ -58,7 +64,10 @@ export const getResumenGeneral = async (req, res) => {
       multas_pagadas;
 
     // POR COBRAR (SOLO CAPITAL)
-    const saldo_pendiente = total_desembolsado - total_abonos;
+    const saldo_pendiente = Math.max(
+      total_desembolsado - total_abonos,
+      0
+    );
 
     // EFECTIVO DISPONIBLE
     const efectivo_disponible = ingresos - saldo_pendiente;
