@@ -493,3 +493,27 @@ body {
 .stats-grid {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
+
+/* =========================
+   DASHBOARD TOP CARDS
+========================= */
+
+.stats-grid,
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.stat-card,
+.dashboard-card {
+  min-width: 260px;
+  padding: 24px;
+}
+
+.stat-value,
+.metric-value,
+.card-value {
+  font-size: 2.2rem;
+  white-space: nowrap;
+}
