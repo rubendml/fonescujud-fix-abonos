@@ -189,6 +189,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -198,7 +199,7 @@
 /* Dashboard Grid */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -284,7 +285,7 @@
   flex-wrap: wrap;
 }
 
-.section-toolbar > * {
+.section-toolbar>* {
   flex: 0 0 auto;
 }
 
@@ -607,6 +608,7 @@
     padding: 0.8rem;
   }
 }
+
 /* Modal Styles */
 .modal {
   display: none;
@@ -728,6 +730,7 @@
     transform: translateX(400px);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -789,6 +792,7 @@
 .btn-success:hover {
   background: #1e8449;
 }
+
 /* Badge Styles */
 .badge {
   display: inline-block;
@@ -844,6 +848,7 @@
 .toolbar-left .form-control {
   min-width: 200px;
 }
+
 /* Reportes Styles */
 .reportes-summary {
   display: grid;
