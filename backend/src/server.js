@@ -13,20 +13,15 @@ import authRoutes from './routes/auth.js';
 const app = express();
 
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin || '*';
+app.use(cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
-  res.header('Access-Control-Allow-Origin', origin);
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+app.options('*', cors());
 
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
 
 // ✅ Body parser
 app.use(express.json());
