@@ -37,59 +37,59 @@ export const getResumenGeneral = async (req, res) => {
 
     // ===== INTERESES COBRADOS (SOLO LOS QUE REALMENTE SE PAGARON) =====
     const intereses_cobrados = movimientos
+    const intereses_cobrados = movimientos
       ?.filter(m => m.tipo_movimiento === 'interes')
       .reduce((sum, m) => sum + (m.monto || 0), 0) || 0;
-      .reduce((sum, m) => sum + (m.monto || 0), 0) || 0;
 
-// ===== MULTAS =====
-const multas_pagadas = multas
-  ?.filter(m => m.estado === 'pagada')
-  .reduce((sum, m) => sum + (m.valor || 0), 0) || 0;
+    // ===== MULTAS =====
+    const multas_pagadas = multas
+      ?.filter(m => m.estado === 'pagada')
+      .reduce((sum, m) => sum + (m.valor || 0), 0) || 0;
 
-const multas_pendientes = multas
-  ?.filter(m => m.estado !== 'pagada')
-  .reduce((sum, m) => sum + (m.valor || 0), 0) || 0;
+    const multas_pendientes = multas
+      ?.filter(m => m.estado !== 'pagada')
+      .reduce((sum, m) => sum + (m.valor || 0), 0) || 0;
 
-// =========================
-// 🔥 NUEVA LÓGICA CORRECTA
-// =========================
+    // =========================
+    // 🔥 NUEVA LÓGICA CORRECTA
+    // =========================
 
-// INGRESOS REALES (SIN ABONOS)
-const ingresos =
-  total_cuotas +
-  intereses_cobrados +
-  multas_pagadas;
+    // INGRESOS REALES (SIN ABONOS)
+    const ingresos =
+      total_cuotas +
+      intereses_cobrados +
+      multas_pagadas;
 
-// POR COBRAR (SOLO CAPITAL)
-const saldo_pendiente = total_desembolsado - total_abonos;
+    // POR COBRAR (SOLO CAPITAL)
+    const saldo_pendiente = total_desembolsado - total_abonos;
 
-// EFECTIVO DISPONIBLE
-const efectivo_disponible = ingresos - saldo_pendiente;
+    // EFECTIVO DISPONIBLE
+    const efectivo_disponible = ingresos - saldo_pendiente;
 
-return res.json({
-  totales: {
-    ingresos,
-    cuotas: total_cuotas,
-    creditos: total_desembolsado,
-    multas: multas_pagadas,
-    interes_recaudado: intereses_cobrados,
-    efectivo_disponible
-  },
-  resumen: {
-    usuarios_afiliados: usuarios?.filter(u => u.afiliado).length || 0,
-    usuarios_no_afiliados: usuarios?.filter(u => !u.afiliado).length || 0,
-    creditos_activos:
-      movimientos?.filter(m => m.tipo_movimiento === 'desembolso').length || 0,
-    total_creditos: total_desembolsado,
-    saldo_pendiente,
-    total_desembolsado,
-    multas_pendientes,
-    interes_recaudado: intereses_cobrados
-  }
-});
+    return res.json({
+      totales: {
+        ingresos,
+        cuotas: total_cuotas,
+        creditos: total_desembolsado,
+        multas: multas_pagadas,
+        interes_recaudado: intereses_cobrados,
+        efectivo_disponible
+      },
+      resumen: {
+        usuarios_afiliados: usuarios?.filter(u => u.afiliado).length || 0,
+        usuarios_no_afiliados: usuarios?.filter(u => !u.afiliado).length || 0,
+        creditos_activos:
+          movimientos?.filter(m => m.tipo_movimiento === 'desembolso').length || 0,
+        total_creditos: total_desembolsado,
+        saldo_pendiente,
+        total_desembolsado,
+        multas_pendientes,
+        interes_recaudado: intereses_cobrados
+      }
+    });
 
   } catch (error) {
-  console.error(error);
-  return res.status(500).json({ error: 'Error en dashboard' });
-}
+    console.error(error);
+    return res.status(500).json({ error: 'Error en dashboard' });
+  }
 };
