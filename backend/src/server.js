@@ -12,7 +12,9 @@ import authRoutes from './routes/auth.js';
 
 const app = express();
 
-
+// =========================
+// CORS
+// =========================
 app.use(cors({
   origin: true,
   credentials: true,
@@ -22,17 +24,22 @@ app.use(cors({
 
 app.options('*', cors());
 
-
-// ✅ Body parser
+// =========================
+// BODY PARSER
+// =========================
 app.use(express.json());
 
-// ✅ Logging
+// =========================
+// LOGS
+// =========================
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
-// ✅ Rutas API
+// =========================
+// RUTAS
+// =========================
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/cuotas', cuotasRoutes);
 app.use('/api/creditos', creditosRoutes);
@@ -41,7 +48,9 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/movimientos', movimientosRoutes);
 app.use('/api/auth', authRoutes);
 
-// ✅ Health check
+// =========================
+// HEALTH CHECK
+// =========================
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
@@ -49,31 +58,30 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ✅ Error handler
+// =========================
+// ERROR HANDLER
+// =========================
 app.use((err, req, res, next) => {
   console.error('❌ ERROR:', err);
+
   res.status(500).json({
     error: 'Internal server error',
     detail: err.message
   });
 });
 
-const PORT = config.server.port;
+// =========================
+// LOCAL SERVER
+// =========================
+const PORT = config.server.port || 3000;
 
-// ✅ Solo levantar servidor en local
 if (!process.env.VERCEL) {
   app.listen(PORT, () => {
-    console.log(`
-╔════════════════════════════════════════╗
-║     FONESCUJUD - Sistema de Fondo      ║
-║             Backend Running             ║
-╠════════════════════════════════════════╣
-║  Puerto: ${PORT}
-║  Entorno: ${config.server.nodeEnv}
-║  Supabase: ${config.supabase.url ? 'Conectado' : 'No configurado'}
-╚════════════════════════════════════════╝
-    `);
+    console.log(`Servidor corriendo en puerto ${PORT}`);
   });
 }
 
+// =========================
+// EXPORT
+// =========================
 export default app;
