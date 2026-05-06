@@ -56,7 +56,6 @@ export const getResumenGeneral = async (req, res) => {
     // ===== INGRESOS REALES =====
     const ingresos =
       total_cuotas +
-      total_abonos +
       intereses_cobrados +
       multas_pagadas;
 
@@ -64,7 +63,7 @@ export const getResumenGeneral = async (req, res) => {
     const saldo_pendiente = total_desembolsado - total_abonos;
 
     // ===== EFECTIVO =====
-    const efectivo_disponible = ingresos - total_desembolsado;
+    const efectivo_disponible = ingresos - saldo_pendiente;
 
     return res.json({
       totales: {
@@ -72,7 +71,6 @@ export const getResumenGeneral = async (req, res) => {
         cuotas: total_cuotas,
         creditos: total_desembolsado,
         multas: multas_pagadas,
-        abonos: total_abonos,
         interes_recaudado: intereses_cobrados,
         efectivo_disponible
       },
