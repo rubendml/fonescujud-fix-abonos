@@ -62,7 +62,7 @@ const updateDashboard = (data) => {
   document.getElementById('creditoSaldo').textContent =
     formatCurrency(resumen.saldo_pendiente);
 
-  document.getElementById('creditoIntereses').textContent =
+  document.getElementById('creditoInteres').textContent =
     formatCurrency(resumen.interes_recaudado);
 
   document.getElementById('creditoActivos').textContent =
