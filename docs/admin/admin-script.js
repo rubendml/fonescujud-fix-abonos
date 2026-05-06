@@ -148,7 +148,7 @@ const updateDashboard = (data) => {
   if (totalCuotas) totalCuotas.textContent = formatCurrency(totales.cuotas || 0);
   if (totalCreditos) totalCreditos.textContent = formatCurrency(totales.creditos || 0);
   totalPorCobrar.textContent = formatCurrency(
-    (resumen?.saldo_pendiente || 0) + (totales.multas || 0)
+    resumen?.saldo_pendiente || 0
   );
 
   // Cuotas detail
@@ -198,7 +198,7 @@ const updateDashboard = (data) => {
   if (ingresoInteres) ingresoInteres.textContent = formatCurrency(totales.interes_recaudado || 0);
   if (ingresoMultas) ingresoMultas.textContent = formatCurrency(totales.multas || 0);
   if (fondosPrestamos) fondosPrestamos.textContent = formatCurrency(totales.creditos || 0);
-  if (porCobrarTotal) porCobrarTotal.textContent = formatCurrency((resumen?.saldo_pendiente || 0) + (totales.multas || 0));
+  if (porCobrarTotal) porCobrarTotal.textContent = formatCurrency(resumen?.saldo_pendiente || 0);
   if (porCobrarSaldos) porCobrarSaldos.textContent = formatCurrency(resumen?.saldo_pendiente || 0);
   if (porCobrarMultas) porCobrarMultas.textContent = formatCurrency(totales.multas || 0);
 
