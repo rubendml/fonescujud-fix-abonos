@@ -1,3 +1,11 @@
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0,
+  }).format(value || 0);
+}
+
 const fetchDashboardData = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/dashboard`);
