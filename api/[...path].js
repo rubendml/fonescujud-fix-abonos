@@ -1,26 +1,28 @@
-import app from '../backend/src/server.js';
+import app from './backend/src/server.js';
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
     try {
         const origin = req.headers.origin || '*';
 
+        // 🔥 HEADERS SIEMPRE
         res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Access-Control-Allow-Credentials', 'true');
         res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-        // 🔥 RESPUESTA LIMPIA AL PREFLIGHT (CRÍTICO)
+        // 🔥 RESPUESTA PRE-FLIGHT (CRÍTICO)
         if (req.method === 'OPTIONS') {
             return res.status(200).end();
         }
 
+        // 🔥 PASAR A EXPRESS
         return app(req, res);
 
     } catch (error) {
-        console.error('💥 ERROR EN VERCEL HANDLER:', error);
+        console.error('💥 ERROR VERCEL:', error);
 
         return res.status(500).json({
-            error: 'Server crashed in Vercel',
+            error: 'Vercel function crashed',
             detail: error.message
         });
     }
