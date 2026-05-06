@@ -35,8 +35,7 @@ export const getResumenGeneral = async (req, res) => {
       ?.filter(m => m.tipo_movimiento === 'abono')
       .reduce((sum, m) => sum + (m.monto || 0), 0) || 0;
 
-    // ===== INTERESES COBRADOS (SOLO LOS QUE REALMENTE SE PAGARON) =====
-    const intereses_cobrados = movimientos
+    // ===== INTERESES COBRADOS (CORREGIDO) =====
     const intereses_cobrados = movimientos
       ?.filter(m => m.tipo_movimiento === 'interes')
       .reduce((sum, m) => sum + (m.monto || 0), 0) || 0;
@@ -50,9 +49,7 @@ export const getResumenGeneral = async (req, res) => {
       ?.filter(m => m.estado !== 'pagada')
       .reduce((sum, m) => sum + (m.valor || 0), 0) || 0;
 
-    // =========================
-    // 🔥 NUEVA LÓGICA CORRECTA
-    // =========================
+    // ===== LÓGICA FINANCIERA =====
 
     // INGRESOS REALES (SIN ABONOS)
     const ingresos =
@@ -89,7 +86,7 @@ export const getResumenGeneral = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error('ERROR DASHBOARD:', error);
     return res.status(500).json({ error: 'Error en dashboard' });
   }
 };
