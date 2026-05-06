@@ -3,7 +3,7 @@ import { supabase } from '../config.js';
 export const getResumenGeneral = async (req, res) => {
   try {
 
-    const { data: cuotas } = await supabase.from('cuotas').select('*');
+    const { data: cuotas } = await supabase.from('cuotas').select('*').eq('estado', 'pagado');
     const { data: multas } = await supabase.from('multas').select('*');
     const { data: usuarios } = await supabase.from('usuarios').select('*');
     const { data: movimientos } = await supabase
