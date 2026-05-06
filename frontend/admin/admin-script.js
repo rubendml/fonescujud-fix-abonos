@@ -150,7 +150,9 @@ const updateDashboard = (data) => {
   if (totalAfiliados) totalAfiliados.textContent = resumen?.usuarios_afiliados || 0;
   if (totalCuotas) totalCuotas.textContent = formatCurrency(totales.cuotas || 0);
   if (totalCreditos) totalCreditos.textContent = formatCurrency(totales.creditos || 0);
-  if (totalPorCobrar) totalPorCobrar.textContent = formatCurrency(totales.multas || 0);
+  totalPorCobrar.textContent = formatCurrency(
+    (resumen?.saldo_pendiente || 0) + (totales.multas || 0)
+  );
 
   // Cuotas detail
   const cuotasTotal = document.getElementById('cuotasTotal');
