@@ -1,8 +1,3 @@
-const API_BASE_URL =
-  window.location.hostname === 'rubendml.github.io'
-    ? 'https://fonescujud-fix-abonos.vercel.app/api'
-    : 'http://localhost:3000/api';
-
 const formatCurrency = (value) => {
   return new Intl.NumberFormat('es-CO', {
     style: 'currency',
