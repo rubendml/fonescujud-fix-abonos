@@ -46,7 +46,7 @@ export const getNombreMes = (mes) => {
     'Septiembre',
     'Octubre',
     'Noviembre',
-    'Diciembre',
+    'Extraordinaria',
   ];
   return meses[mes - 1] || 'Mes inválido';
 };
