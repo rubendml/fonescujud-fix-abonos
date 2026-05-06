@@ -68,15 +68,6 @@ const updateDashboard = (data) => {
   document.getElementById('creditoActivos').textContent =
     resumen.creditos_activos;
 
-  // EFECTIVO
-  document.getElementById('efectivoIngresos').textContent =
-    formatCurrency(totales.ingresos);
-
-  document.getElementById('efectivoDesembolsado').textContent =
-    formatCurrency(totales.creditos);
-
-  document.getElementById('efectivoDisponible').textContent =
-    formatCurrency(totales.efectivo_disponible);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
