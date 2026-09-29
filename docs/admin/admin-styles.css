@@ -184,6 +184,104 @@
   display: block;
 }
 
+.closing-toolbar {
+  align-items: end;
+}
+
+.closing-note {
+  margin: 0 0 1rem;
+  color: #536575;
+  line-height: 1.5;
+}
+
+.closing-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0 0 1.25rem;
+  padding: 1rem 0;
+  border-top: 1px solid #d9e0e7;
+  border-bottom: 1px solid #d9e0e7;
+}
+
+.closing-summary div {
+  display: grid;
+  gap: 5px;
+}
+
+.closing-summary span {
+  color: #536575;
+  font-size: 0.85rem;
+}
+
+.closing-summary strong {
+  color: #094a5e;
+  font-size: 1.25rem;
+}
+
+.closing-table-wrap {
+  overflow-x: auto;
+}
+
+.closing-members-wrap .data-table {
+  min-width: 1180px;
+}
+
+.closing-interest-wrap .data-table {
+  min-width: 560px;
+}
+
+.closing-ledger-title {
+  margin: 1.75rem 0 0.75rem;
+  color: #094a5e;
+  font-size: 1.2rem;
+}
+
+.closing-details-row>td {
+  padding: 0 !important;
+  background: #f7fafc;
+}
+
+.closing-details {
+  padding: 0.65rem 1rem;
+}
+
+.closing-details summary {
+  color: #094a5e;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.closing-payment-table {
+  width: 100%;
+  min-width: 480px;
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.closing-payment-table th,
+.closing-payment-table td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid #e1e7ec;
+}
+
+.closing-payment-table th {
+  color: #536575;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 768px) {
+  .closing-summary {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .closing-toolbar>* {
+    width: 100%;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

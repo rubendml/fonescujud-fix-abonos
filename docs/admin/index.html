@@ -34,6 +34,10 @@
           <span class="icon">💰</span>
           <span>Cuotas</span>
         </a>
+        <a href="#" class="nav-item" data-section="cierre">
+          <span class="icon">📊</span>
+          <span>Cierre presupuestal</span>
+        </a>
         <a href="#" class="nav-item" data-section="creditos">
           <span class="icon">💳</span>
           <span>Créditos</span>
@@ -299,6 +303,88 @@
               </tr>
             </tbody>
           </table>
+        </section>
+
+        <!-- Cierre Presupuestal Section -->
+        <section id="cierre-section" class="content-section">
+          <div class="section-toolbar closing-toolbar">
+            <input type="search" class="search-input" id="cierreSearch" placeholder="Buscar afiliado...">
+            <select id="cierreYearFilter" class="filter-select" aria-label="Filtrar por año">
+              <option value="">Todos los años</option>
+            </select>
+          </div>
+          <p class="closing-note">Cada COP 200.000 pagados equivale a un cupo. El filtro anual considera el capital
+            aportado hasta ese cierre y los intereses y multas pagadas en ese año. Los abonos a capital de créditos no
+            son utilidades.</p>
+          <div class="closing-summary" aria-live="polite">
+            <div><span>Capital aportado</span><strong id="cierreTotalAportes">$0</strong></div>
+            <div><span>Cupos equivalentes</span><strong id="cierreTotalCupos">0</strong></div>
+            <div><span>Afiliados aportantes</span><strong id="cierreTotalSocios">0</strong></div>
+            <div><span>Cuotas pagadas</span><strong id="cierreTotalCuotas">0</strong></div>
+            <div><span>Intereses registrados</span><strong id="cierreTotalIntereses">$0</strong></div>
+            <div><span>Multas pagadas</span><strong id="cierreTotalMultas">$0</strong></div>
+            <div><span>Total utilidades</span><strong id="cierreTotalUtilidades">$0</strong></div>
+            <div><span>Utilidad por cupo</span><strong id="cierreUtilidadPorCupo">$0</strong></div>
+          </div>
+          <div class="closing-table-wrap closing-members-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Afiliado</th>
+                  <th>Cédula</th>
+                  <th>Cuotas pagadas</th>
+                  <th>Cupos equivalentes</th>
+                  <th>Aporte acumulado</th>
+                  <th>Participación</th>
+                  <th>Utilidad por intereses</th>
+                  <th>Utilidad por multas</th>
+                  <th>Total distribuido</th>
+                </tr>
+              </thead>
+              <tbody id="cierreTable">
+                <tr>
+                  <td colspan="9" class="text-center text-muted">Seleccione Cierre presupuestal para cargar los datos
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h2 class="closing-ledger-title">Detalle de intereses del fondo</h2>
+          <div class="closing-table-wrap closing-interest-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Periodo</th>
+                  <th>Movimientos</th>
+                  <th>Intereses registrados</th>
+                </tr>
+              </thead>
+              <tbody id="cierreInteresesTable">
+                <tr>
+                  <td colspan="3" class="text-center text-muted">Seleccione Cierre presupuestal para cargar los datos
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h2 class="closing-ledger-title">Detalle de multas pagadas</h2>
+          <div class="closing-table-wrap closing-interest-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Periodo</th>
+                  <th>Multas</th>
+                  <th>Total pagado</th>
+                </tr>
+              </thead>
+              <tbody id="cierreMultasTable">
+                <tr>
+                  <td colspan="3" class="text-center text-muted">Seleccione Cierre presupuestal para cargar los datos
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <!-- Créditos Section -->
@@ -658,6 +744,7 @@
   <script src="../config.js?v=20260130"></script>
   <script src="admin-script.js?v=20260135"></script>
   <script src="auth.js?v=20260130"></script>
+  <script src="cierre-presupuestal.js?v=20260929"></script>
 </body>
 
 </html>
