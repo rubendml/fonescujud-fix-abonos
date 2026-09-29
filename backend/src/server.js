@@ -9,6 +9,7 @@ import multasRoutes from './routes/multas.js';
 import dashboardRoutes from './routes/dashboard.js';
 import movimientosRoutes from './routes/movimientos.js';
 import authRoutes from './routes/auth.js';
+import { maintenanceGate } from './middleware/maintenance.js';
 
 const app = express();
 
@@ -36,6 +37,8 @@ app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
+
+app.use(maintenanceGate);
 
 // =========================
 // RUTAS
