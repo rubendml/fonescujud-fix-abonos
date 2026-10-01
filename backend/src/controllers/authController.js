@@ -12,7 +12,7 @@ export const login = async (req, res) => {
     // Buscar usuario en la base de datos
     const { data: user, error } = await supabaseAdmin
         .from('usuarios')
-        .select('id, nombre, email, rol, password')
+        .select('id, nombre, email, rol, usuario, password')
         .eq('usuario', usuario)
         .single();
 
@@ -26,6 +26,6 @@ export const login = async (req, res) => {
     }
 
     // Generar token JWT
-    const token = jwt.sign({ id: user.id, rol: user.rol, nombre: user.nombre }, JWT_SECRET, { expiresIn: '8h' });
+    const token = jwt.sign({ id: user.id, rol: user.rol, nombre: user.nombre, usuario: user.usuario }, JWT_SECRET, { expiresIn: '8h' });
     res.json({ token, rol: user.rol });
 };

@@ -80,6 +80,77 @@ export const getAllCuotas = async (req, res) => {
   }
 };
 
+// Obtener aportes pagados de afiliados para el cierre presupuestal
+export const getCierrePresupuestal = async (req, res) => {
+  try {
+    const cuotas = [];
+    const intereses = [];
+    const multas = [];
+    const pageSize = 1000;
+    let offset = 0;
+
+    while (true) {
+      const { data, error } = await supabaseAdmin
+        .from('recaudo_cuotas')
+        .select('id, usuario_id, mes, anio, valor_pagado, fecha_pago, estado, usuarios!inner(id, nombre, cedula, afiliado)')
+        .eq('estado', 'pagado')
+        .eq('usuarios.afiliado', true)
+        .order('anio', { ascending: false })
+        .order('mes', { ascending: false })
+        .order('id', { ascending: true })
+        .range(offset, offset + pageSize - 1);
+
+      if (error) throw error;
+
+      const pagina = data || [];
+      cuotas.push(...pagina);
+      if (pagina.length < pageSize) break;
+      offset += pageSize;
+    }
+
+    offset = 0;
+    while (true) {
+      const { data, error } = await supabaseAdmin
+        .from('movimientos_creditos')
+        .select('id, credito_id, monto, fecha_movimiento, descripcion')
+        .eq('tipo_movimiento', 'interes')
+        .order('fecha_movimiento', { ascending: true })
+        .order('id', { ascending: true })
+        .range(offset, offset + pageSize - 1);
+
+      if (error) throw error;
+
+      const pagina = data || [];
+      intereses.push(...pagina);
+      if (pagina.length < pageSize) break;
+      offset += pageSize;
+    }
+
+    offset = 0;
+    while (true) {
+      const { data, error } = await supabaseAdmin
+        .from('multas')
+        .select('id, usuario_id, valor, fecha_pago, motivo, descripcion, estado, usuarios(nombre, cedula)')
+        .eq('estado', 'pagada')
+        .order('fecha_pago', { ascending: true })
+        .order('id', { ascending: true })
+        .range(offset, offset + pageSize - 1);
+
+      if (error) throw error;
+
+      const pagina = data || [];
+      multas.push(...pagina);
+      if (pagina.length < pageSize) break;
+      offset += pageSize;
+    }
+
+    res.json({ cuotas, intereses, multas, valor_cupo: 200000 });
+  } catch (error) {
+    console.error('[getCierrePresupuestal] Error:', error.message);
+    res.status(500).json({ error: 'No fue posible cargar el cierre presupuestal' });
+  }
+};
+
 // Obtener resumen de cuotas
 export const getResumenCuotas = async (req, res) => {
   try {
