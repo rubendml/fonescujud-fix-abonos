@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import { supabaseAdmin } from '../db.js';
-import { canAccessDuringMaintenance, isMaintenanceEnabled } from '../middleware/maintenance.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecreto';
 
@@ -13,7 +12,7 @@ export const login = async (req, res) => {
     // Buscar usuario en la base de datos
     const { data: user, error } = await supabaseAdmin
         .from('usuarios')
-            .select('id, nombre, email, rol, usuario, password')
+        .select('id, nombre, email, rol, usuario, password')
         .eq('usuario', usuario)
         .single();
 
@@ -24,10 +23,6 @@ export const login = async (req, res) => {
     // Validar contraseña (en producción usar hash)
     if (user.password !== password) {
         return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
-    }
-
-    if (isMaintenanceEnabled() && !canAccessDuringMaintenance(user)) {
-        return res.status(503).json({ error: 'Acceso suspendido temporalmente por mantenimiento' });
     }
 
     // Generar token JWT
