@@ -1,4 +1,17 @@
 {
+  "rewrites": [
+    {
+      "source": "/FondoEJRLB",
+      "destination": "/docs/index.html"
+    },
+    {
+      "source": "/FondoEJRLB/:path*",
+      "destination": "/docs/:path*"
+    }
+  ]
+}
+
+{
   "routes": [
     {
       "src": "/api/(.*)",
